@@ -7,7 +7,7 @@ import { Subject, VirtualTimeScheduler } from 'rxjs';
   providedIn: 'root'
 })
 export class CartService {
-
+  
   cartItems: CartItem[] = [];
 
   totalPrice: Subject<number> = new Subject<number>();
@@ -66,6 +66,26 @@ export class CartService {
     }
     console.log(`totalPrice: ${totolPriceValue} totalQuantity: ${totalQuantityValue}`);
     console.log("-----");
+  }
+
+  decrementQuantity(theCartItem: CartItem) {
+    theCartItem.quantity--;
+
+    if(theCartItem.quantity === 0){
+      this.remove(theCartItem);
+    }
+    else{
+      this.computeCartTotals();
+    }
+  }
+  remove(theCartItem: CartItem) {
+    // get index ot the item in the array
+    const itemIndex = this.cartItems.findIndex(temp => temp.id = theCartItem.id);
+
+    if(itemIndex > -1){
+      this.cartItems.splice(itemIndex,1);
+      this.computeCartTotals();
+    }
   }
   
 }
