@@ -41,6 +41,15 @@ export class ProductService {
     return this.getProducts(searchUrl);
   }
 
+  searchProductsPaginate(thePage: number, thePageSize: number,theKeyWord: string): Observable<GetResponseProducts>{
+
+    // need to build URL based of keyword , page and size
+    const searchUrl = `${this.baseUrl}/search/findByNameContainingIgnoreCase?name=${theKeyWord}`
+                    +`&page=${thePage}&size=${thePageSize}`;
+
+    return this.httpClient.get<GetResponseProducts>(searchUrl);
+  }
+
   getProduct(theProductId: number): Observable<Product> {
     
     // need to build URL based on product id
